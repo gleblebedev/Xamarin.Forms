@@ -60,6 +60,8 @@ namespace Xamarin.Forms.Build.Tasks
 
 			if (skips.Contains(propertyName))
 				return;
+			if (parentNode is IElementNode && ((IElementNode)parentNode).SkipProperties.Contains (propertyName))
+				return;
 			if (propertyName.NamespaceURI == "http://schemas.openxmlformats.org/markup-compatibility/2006" &&
 			    propertyName.LocalName == "Ignorable")
 				return;
@@ -96,7 +98,8 @@ namespace Xamarin.Forms.Build.Tasks
 			{
 				if (skips.Contains(propertyName))
 					return;
-
+				if (parentNode is IElementNode && ((IElementNode)parentNode).SkipProperties.Contains (propertyName))
+					return;
 				if (propertyName == XmlName._CreateContent)
 					SetDataTemplate((IElementNode)parentNode, node, Context, node);
 				else
@@ -128,6 +131,8 @@ namespace Xamarin.Forms.Build.Tasks
 					var name = new XmlName(node.NamespaceURI, contentProperty);
 					if (skips.Contains(name))
 						return;
+					if (parentNode is IElementNode && ((IElementNode)parentNode).SkipProperties.Contains (propertyName))
+						return;
 					Context.IL.Append(SetPropertyValue(Context.Variables[(IElementNode)parentNode], name, node, Context, node));
 				}
 			}
@@ -143,7 +148,8 @@ namespace Xamarin.Forms.Build.Tasks
 
 				if (skips.Contains(parentList.XmlName))
 					return;
-
+				if (parentNode is IElementNode && ((IElementNode)parentNode).SkipProperties.Contains (propertyName))
+					return;
 				var elementType = parent.VariableType;
 				var localname = parentList.XmlName.LocalName;
 
